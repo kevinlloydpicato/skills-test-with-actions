@@ -1,5 +1,27 @@
-_name: Run markdown lint
-  run: |
-    npm install remark-cli remark-preset-lint-consistent
-    npx remark . --use remark-preset-lint-consistent --frail_
+name: Run Markdown Lint
 
+on:
+  push:
+    branches:
+      - ci  # Run this workflow on the 'ci' branch, adjust branch name if needed
+
+jobs:
+  markdown-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 14  # Use the desired Node.js version
+
+    - name: Install Dependencies
+      run: |
+        npm install remark-cli remark-preset-lint-consistent
+
+    - name: Run Markdown Lint
+      run: |
+        npx remark . --use remark-preset-lint-consistent --frail
